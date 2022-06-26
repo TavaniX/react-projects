@@ -11,12 +11,22 @@ function App() {
 
     const handleSumbit = (e) => {
         e.preventDefault()
-        console.log('success')
+        if (!name) {
+            // display alert here
+        } else if (name && isEditing) {
+            // deal with edit
+        } else {
+            // show alert
+            // create new item
+            const newItem = { id: new Date().getTime().toString(), title: name }
+            setList([...list, newItem])
+            setName('')
+        }
     }
 
     return (
         <section className='section-center'>
-            <form className='grocery-form' onSumit={handleSumbit}>
+            <form className='grocery-form' onSubmit={handleSumbit}>
                 {alert.show && <Alert />}
                 <h3>grocery bud</h3>
                 <div className='form-control'>
@@ -32,12 +42,14 @@ function App() {
                     </button>
                 </div>
             </form>
-            <div className='grocery-container'>
-                <List />
-                <button className='clear-btn' onClick={() => {}}>
-                    clear items
-                </button>
-            </div>
+            {list.length > 0 && (
+                <div className='grocery-container'>
+                    <List items={list} />
+                    <button className='clear-btn' onClick={() => {}}>
+                        clear items
+                    </button>
+                </div>
+            )}
         </section>
     )
 }
