@@ -7,16 +7,26 @@ function App() {
     const [list, setList] = useState([])
     const [isEditing, setIsEditing] = useState(false)
     const [editID, setEditID] = useState(null)
-    const [alert, setAlert] = useState({ show: false, msg: '', type: '' })
+    const [alert, setAlert] = useState({
+        show: false,
+        msg: '',
+        type: '',
+    })
+
+    const showAlert = (show = false, type = '', msg = '') => {
+        setAlert({ show, type, msg })
+    }
 
     const handleSumbit = (e) => {
         e.preventDefault()
         if (!name) {
-            // display alert here
+            // display alert
+            showAlert(true, 'danger', 'please input value')
         } else if (name && isEditing) {
             // deal with edit
         } else {
             // show alert
+
             // create new item
             const newItem = { id: new Date().getTime().toString(), title: name }
             setList([...list, newItem])
@@ -27,7 +37,7 @@ function App() {
     return (
         <section className='section-center'>
             <form className='grocery-form' onSubmit={handleSumbit}>
-                {alert.show && <Alert />}
+                {alert.show && <Alert {...alert} removeAlert={showAlert} />}
                 <h3>grocery bud</h3>
                 <div className='form-control'>
                     <input
